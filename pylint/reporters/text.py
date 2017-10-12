@@ -24,7 +24,6 @@ from pylint.reporters import BaseReporter
 from pylint import utils
 from pylint.reporters.ureports.text_writer import TextWriter
 
-
 TITLE_UNDERLINES = ['', '=', '-', '.']
 
 ANSI_PREFIX = '\033['
@@ -50,6 +49,7 @@ ANSI_COLORS = {
     'cyan': "36",
     'white': "37",
 }
+
 
 def _get_ansi_code(color=None, style=None):
     """return ansi escape code corresponding to color and style
@@ -83,6 +83,7 @@ def _get_ansi_code(color=None, style=None):
     if ansi_code:
         return ANSI_PREFIX + ';'.join(ansi_code) + ANSI_END
     return ''
+
 
 def colorize_ansi(msg, color=None, style=None):
     """colorize message by wrapping it with ansi escape codes
@@ -136,12 +137,13 @@ class TextReporter(BaseReporter):
 
     def handle_message(self, msg):
         """manage message of different type and in the context of path"""
+        from lazyme.string import color_print
         if msg.module not in self._modules:
             if msg.module:
-                self.writeln('************* Module %s' % msg.module)
+                color_print('\n\n************* Module %s *************' % msg.module, color='red')
                 self._modules.add(msg.module)
             else:
-                self.writeln('************* ')
+                self.writeln('*************')
         self.write_message(msg)
 
     def _display(self, layout):
@@ -177,13 +179,13 @@ class ColorizedTextReporter(TextReporter):
 
     name = 'colorized'
     COLOR_MAPPING = {
-        "I" : ("green", None),
-        'C' : (None, "bold"),
-        'R' : ("magenta", "bold, italic"),
-        'W' : ("blue", None),
-        'E' : ("red", "bold"),
-        'F' : ("red", "bold, underline"),
-        'S' : ("yellow", "inverse"), # S stands for module Separator
+        "I": ("green", None),
+        'C': (None, "bold"),
+        'R': ("magenta", "bold, italic"),
+        'W': ("blue", None),
+        'E': ("red", "bold"),
+        'F': ("red", "bold, underline"),
+        'S': ("yellow", "inverse"),  # S stands for module Separator
     }
 
     def __init__(self, output=None, color_mapping=None):

@@ -86,8 +86,8 @@ def _is_owner_ignored(owner, name, ignored_classes, ignored_modules):
     module_name = owner.root().name
     module_qname = owner.root().qname()
     if any(module_name in ignored_modules or
-           module_qname in ignored_modules or
-           fnmatch.fnmatch(module_qname, ignore) for ignore in ignored_modules):
+                           module_qname in ignored_modules or
+                   fnmatch.fnmatch(module_qname, ignore) for ignore in ignored_modules):
         return True
 
     ignored_classes = set(ignored_classes)
@@ -277,7 +277,7 @@ MSGS = {
               'When defining a keyword argument before variable positional arguments, one can '
               'end up in having multiple values passed for the aforementioned parameter in '
               'case the method is called with keyword arguments.'),
-    }
+}
 
 # builtin sequence types in Python 2 and 3.
 SEQUENCE_TYPES = {
@@ -312,6 +312,7 @@ def _emit_no_member(node, owner, owner_name, ignored_mixins):
     if isinstance(owner, (astroid.Instance, astroid.ClassDef)):
         if owner.has_dynamic_getattr() or not has_known_bases(owner):
             return False
+
     if isinstance(owner, objects.Super):
         # Verify if we are dealing with an invalid Super object.
         # If it is invalid, then there's no point in checking that
@@ -523,13 +524,13 @@ class TypeChecker(BaseChecker):
                          'but some branches might not be evaluated, which results in '
                          'partial inference. In that case, it might be useful to still emit '
                          'no-member and other checks for the rest of the inferred objects.'}
-               ),
+                ),
                ('ignore-mixin-members',
-                {'default' : True, 'type' : 'yn', 'metavar': '<y_or_n>',
-                 'help' : 'Tells whether missing members accessed in mixin \
+                {'default': True, 'type': 'yn', 'metavar': '<y_or_n>',
+                 'help': 'Tells whether missing members accessed in mixin \
 class should be ignored. A mixin class is detected if its name ends with \
 "mixin" (case insensitive).'}
-               ),
+                ),
                ('ignored-modules',
                 {'default': (),
                  'type': 'csv',
@@ -540,28 +541,28 @@ class should be ignored. A mixin class is detected if its name ends with \
                          'thus existing member attributes cannot be '
                          'deduced by static analysis. It supports qualified '
                          'module names, as well as Unix pattern matching.'}
-               ),
+                ),
                # the defaults here are *stdlib* names that (almost) always
                # lead to false positives, since their idiomatic use is
                # 'too dynamic' for pylint to grok.
                ('ignored-classes',
-                {'default' : ('optparse.Values', 'thread._local', '_thread._local'),
-                 'type' : 'csv',
-                 'metavar' : '<members names>',
-                 'help' : 'List of class names for which member attributes '
-                          'should not be checked (useful for classes with '
-                          'dynamically set attributes). This supports '
-                          'the use of qualified names.'}
-               ),
+                {'default': ('optparse.Values', 'thread._local', '_thread._local'),
+                 'type': 'csv',
+                 'metavar': '<members names>',
+                 'help': 'List of class names for which member attributes '
+                         'should not be checked (useful for classes with '
+                         'dynamically set attributes). This supports '
+                         'the use of qualified names.'}
+                ),
 
                ('generated-members',
-                {'default' : (),
-                 'type' : 'string',
-                 'metavar' : '<members names>',
-                 'help' : 'List of members which are set dynamically and \
+                {'default': (),
+                 'type': 'string',
+                 'metavar': '<members names>',
+                 'help': 'List of members which are set dynamically and \
 missed by pylint inference system, and so shouldn\'t trigger E1101 when \
 accessed. Python regular expressions are accepted.'}
-               ),
+                ),
                ('contextmanager-decorators',
                 {'default': ['contextlib.contextmanager'],
                  'type': 'csv',
@@ -570,32 +571,32 @@ accessed. Python regular expressions are accepted.'}
                          'such as contextlib.contextmanager. Add to this list '
                          'to register other decorators that produce valid '
                          'context managers.'}
-               ),
+                ),
                ('missing-member-hint-distance',
                 {'default': 1,
                  'type': 'int',
                  'metavar': '<member hint edit distance>',
                  'help': 'The minimum edit distance a name should have in order '
                          'to be considered a similar match for a missing member name.'
-                }
-               ),
+                 }
+                ),
                ('missing-member-max-choices',
                 {'default': 1,
                  'type': "int",
                  'metavar': '<member hint max choices>',
                  'help': 'The total number of similar names that should be taken in '
                          'consideration when showing a hint for a missing member.'
-                }
-               ),
+                 }
+                ),
                ('missing-member-hint',
                 {'default': True,
                  'type': "yn",
                  'metavar': '<missing member hint>',
                  'help': 'Show a hint with possible names when a member name was not '
                          'found. The aspect of finding the hint is based on edit distance.'
-                }
-               ),
-              )
+                 }
+                ),
+               )
 
     @decorators.cachedproperty
     def _suggestion_mode(self):
@@ -644,10 +645,10 @@ accessed. Python regular expressions are accepted.'}
         if isinstance(metaclass, astroid.ClassDef):
             if _is_invalid_metaclass(metaclass):
                 self.add_message('invalid-metaclass', node=node,
-                                 args=(_metaclass_name(metaclass), ))
+                                 args=(_metaclass_name(metaclass),))
         else:
             self.add_message('invalid-metaclass', node=node,
-                             args=(_metaclass_name(metaclass), ))
+                             args=(_metaclass_name(metaclass),))
 
     def visit_assignattr(self, node):
         if isinstance(node.assign_type(), astroid.AugAssign):
@@ -683,10 +684,11 @@ accessed. Python regular expressions are accepted.'}
         non_opaque_inference_results = [
             owner for owner in inferred
             if owner is not astroid.Uninferable
-            and not isinstance(owner, astroid.nodes.Unknown)
+               and not isinstance(owner, astroid.nodes.Unknown)
         ]
+
         if (len(non_opaque_inference_results) != len(inferred)
-                and self.config.ignore_on_opaque_inference):
+            and self.config.ignore_on_opaque_inference):
             # There is an ambiguity in the inference. Since we can't
             # make sure that we won't emit a false positive, we just stop
             # whenever the inference returns an opaque inference object.
@@ -707,6 +709,7 @@ accessed. Python regular expressions are accepted.'}
                 # XXX method / function
                 continue
             except exceptions.NotFoundError:
+
                 # This can't be moved before the actual .getattr call,
                 # because there can be more values inferred and we are
                 # stopping after the first one which has the attribute in question.
@@ -714,9 +717,16 @@ accessed. Python regular expressions are accepted.'}
                 # but we continue to the next values which doesn't have the
                 # attribute, then we'll have a false positive.
                 # So call this only after the call has been made.
+
+                # In django, the models use objects from their
+                # super class, which is a package and not parsed by pylint
+                # to ignore that, for now, passing 'objects' attribute.
+
+                # FIXME
+                if node.attrname == 'objects':
+                    continue
                 if not _emit_no_member(node, owner, name,
                                        self.config.ignore_mixin_members):
-
                     continue
                 missingattr.add((owner, name))
                 continue
@@ -766,10 +776,10 @@ accessed. Python regular expressions are accepted.'}
         function_node = safe_infer(node.value.func)
         # skip class, generator and incomplete function definition
         if not (isinstance(function_node, astroid.FunctionDef) and
-                function_node.root().fully_defined()):
+                    function_node.root().fully_defined()):
             return
         if function_node.is_generator() \
-               or function_node.is_abstract(pass_is_abstract=False):
+                or function_node.is_abstract(pass_is_abstract=False):
             return
         returns = list(function_node.nodes_of_class(astroid.Return,
                                                     skip_klass=astroid.FunctionDef))
@@ -879,7 +889,7 @@ accessed. Python regular expressions are accepted.'}
         # Warn about duplicated keyword arguments, such as `f=24, **{'f': 24}`
         for keyword in call_site.duplicated_keywords:
             self.add_message('repeated-keyword',
-                             node=node, args=(keyword, ))
+                             node=node, args=(keyword,))
 
         if call_site.has_invalid_arguments() or call_site.has_invalid_keywords():
             # Can't make sense of this.
@@ -1140,7 +1150,7 @@ accessed. Python regular expressions are accepted.'}
                         break
                 else:
                     self.add_message('not-context-manager',
-                                     node=node, args=(infered.name, ))
+                                     node=node, args=(infered.name,))
             else:
                 try:
                     infered.getattr('__enter__')
@@ -1157,7 +1167,7 @@ accessed. Python regular expressions are accepted.'}
                                 continue
 
                     self.add_message('not-context-manager',
-                                     node=node, args=(infered.name, ))
+                                     node=node, args=(infered.name,))
 
     @check_messages('invalid-unary-operand-type')
     def visit_unaryop(self, node):
@@ -1265,7 +1275,7 @@ class IterableChecker(BaseChecker):
                       'not-a-mapping',
                       'Used when a non-mapping value is used in place where '
                       'mapping is expected'),
-           }
+            }
 
     def _check_iterable(self, node):
         if is_inside_abstract_class(node):

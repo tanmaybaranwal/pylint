@@ -30,6 +30,7 @@ import collections
 import contextlib
 import operator
 import os
+
 try:
     import multiprocessing
 except ImportError:
@@ -52,7 +53,6 @@ from pylint import config
 from pylint.__pkginfo__ import version
 from pylint.reporters.ureports import nodes as report_nodes
 
-
 MANAGER = astroid.MANAGER
 
 
@@ -72,6 +72,7 @@ def _get_new_args(message):
         message.msg,
         message.confidence,
     )
+
 
 def _get_python_path(filepath):
     dirname = os.path.realpath(os.path.expanduser(filepath))
@@ -114,7 +115,7 @@ def _patch_sysmodules():
     # For more details why this is needed,
     # see Python issue http://bugs.python.org/issue10845.
 
-    mock_main = __name__ != '__main__' # -m switch
+    mock_main = __name__ != '__main__'  # -m switch
     if mock_main:
         sys.modules['__main__'] = sys.modules[__name__]
 
@@ -190,8 +191,7 @@ MSGS = {
     'E0012': ('Bad option value %r',
               'bad-option-value',
               'Used when a bad value for an inline option is encountered.'),
-    }
-
+}
 
 if multiprocessing is not None:
     class ChildLinter(multiprocessing.Process):
@@ -259,7 +259,7 @@ class PyLinter(config.OptionsManagerMixIn,
     to ensure the latest code version is actually checked.
     """
 
-    __implements__ = (interfaces.ITokenChecker, )
+    __implements__ = (interfaces.ITokenChecker,)
 
     name = 'master'
     priority = 0
@@ -269,57 +269,57 @@ class PyLinter(config.OptionsManagerMixIn,
     @staticmethod
     def make_options():
         return (('ignore',
-                 {'type' : 'csv', 'metavar' : '<file>[,<file>...]',
-                  'dest' : 'black_list', 'default' : ('CVS',),
-                  'help' : 'Add files or directories to the blacklist. '
-                           'They should be base names, not paths.'}),
+                 {'type': 'csv', 'metavar': '<file>[,<file>...]',
+                  'dest': 'black_list', 'default': ('CVS',),
+                  'help': 'Add files or directories to the blacklist. '
+                          'They should be base names, not paths.'}),
 
                 ('ignore-patterns',
-                 {'type' : 'regexp_csv', 'metavar' : '<pattern>[,<pattern>...]',
-                  'dest' : 'black_list_re', 'default' : (),
-                  'help' : 'Add files or directories matching the regex patterns to the'
-                           ' blacklist. The regex matches against base names, not paths.'}),
+                 {'type': 'regexp_csv', 'metavar': '<pattern>[,<pattern>...]',
+                  'dest': 'black_list_re', 'default': (),
+                  'help': 'Add files or directories matching the regex patterns to the'
+                          ' blacklist. The regex matches against base names, not paths.'}),
 
                 ('persistent',
-                 {'default': True, 'type' : 'yn', 'metavar' : '<y_or_n>',
+                 {'default': True, 'type': 'yn', 'metavar': '<y_or_n>',
                   'level': 1,
-                  'help' : 'Pickle collected data for later comparisons.'}),
+                  'help': 'Pickle collected data for later comparisons.'}),
 
                 ('load-plugins',
-                 {'type' : 'csv', 'metavar' : '<modules>', 'default' : (),
+                 {'type': 'csv', 'metavar': '<modules>', 'default': (),
                   'level': 1,
-                  'help' : 'List of plugins (as comma separated values of '
-                           'python modules names) to load, usually to register '
-                           'additional checkers.'}),
+                  'help': 'List of plugins (as comma separated values of '
+                          'python modules names) to load, usually to register '
+                          'additional checkers.'}),
 
                 ('output-format',
-                 {'default': 'text', 'type': 'string', 'metavar' : '<format>',
+                 {'default': 'text', 'type': 'string', 'metavar': '<format>',
                   'short': 'f',
                   'group': 'Reports',
-                  'help' : 'Set the output format. Available formats are text,'
-                           ' parseable, colorized, json and msvs (visual studio).'
-                           'You can also give a reporter class, eg mypackage.mymodule.'
-                           'MyReporterClass.'}),
+                  'help': 'Set the output format. Available formats are text,'
+                          ' parseable, colorized, json and msvs (visual studio).'
+                          'You can also give a reporter class, eg mypackage.mymodule.'
+                          'MyReporterClass.'}),
 
                 ('reports',
-                 {'default': False, 'type' : 'yn', 'metavar' : '<y_or_n>',
+                 {'default': False, 'type': 'yn', 'metavar': '<y_or_n>',
                   'short': 'r',
                   'group': 'Reports',
-                  'help' : 'Tells whether to display a full report or only the '
-                           'messages'}),
+                  'help': 'Tells whether to display a full report or only the '
+                          'messages'}),
 
                 ('evaluation',
-                 {'type' : 'string', 'metavar' : '<python_expression>',
+                 {'type': 'string', 'metavar': '<python_expression>',
                   'group': 'Reports', 'level': 1,
                   'default': '10.0 - ((float(5 * error + warning + refactor + '
                              'convention) / statement) * 10)',
-                  'help' : 'Python expression which should return a note less '
-                           'than 10 (10 is the highest note). You have access '
-                           'to the variables errors warning, statement which '
-                           'respectively contain the number of errors / '
-                           'warnings messages and the total number of '
-                           'statements analyzed. This is used by the global '
-                           'evaluation report (RP0004).'}),
+                  'help': 'Python expression which should return a note less '
+                          'than 10 (10 is the highest note). You have access '
+                          'to the variables errors warning, statement which '
+                          'respectively contain the number of errors / '
+                          'warnings messages and the total number of '
+                          'statements analyzed. This is used by the global '
+                          'evaluation report (RP0004).'}),
                 ('score',
                  {'default': True, 'type': 'yn', 'metavar': '<y_or_n>',
                   'short': 's',
@@ -327,57 +327,57 @@ class PyLinter(config.OptionsManagerMixIn,
                   'help': 'Activate the evaluation score.'}),
 
                 ('confidence',
-                 {'type' : 'multiple_choice', 'metavar': '<levels>',
+                 {'type': 'multiple_choice', 'metavar': '<levels>',
                   'default': '',
                   'choices': [c.name for c in interfaces.CONFIDENCE_LEVELS],
                   'group': 'Messages control',
-                  'help' : 'Only show warnings with the listed confidence levels.'
-                           ' Leave empty to show all. Valid levels: %s' % (
-                               ', '.join(c.name for c in interfaces.CONFIDENCE_LEVELS),)}),
+                  'help': 'Only show warnings with the listed confidence levels.'
+                          ' Leave empty to show all. Valid levels: %s' % (
+                              ', '.join(c.name for c in interfaces.CONFIDENCE_LEVELS),)}),
 
                 ('enable',
-                 {'type' : 'csv', 'metavar': '<msg ids>',
+                 {'type': 'csv', 'metavar': '<msg ids>',
                   'short': 'e',
                   'group': 'Messages control',
-                  'help' : 'Enable the message, report, category or checker with the '
-                           'given id(s). You can either give multiple identifier '
-                           'separated by comma (,) or put this option multiple time '
-                           '(only on the command line, not in the configuration file '
-                           'where it should appear only once). '
-                           'See also the "--disable" option for examples. '}),
+                  'help': 'Enable the message, report, category or checker with the '
+                          'given id(s). You can either give multiple identifier '
+                          'separated by comma (,) or put this option multiple time '
+                          '(only on the command line, not in the configuration file '
+                          'where it should appear only once). '
+                          'See also the "--disable" option for examples. '}),
 
                 ('disable',
-                 {'type' : 'csv', 'metavar': '<msg ids>',
+                 {'type': 'csv', 'metavar': '<msg ids>',
                   'short': 'd',
                   'group': 'Messages control',
-                  'help' : 'Disable the message, report, category or checker '
-                           'with the given id(s). You can either give multiple identifiers'
-                           ' separated by comma (,) or put this option multiple times '
-                           '(only on the command line, not in the configuration file '
-                           'where it should appear only once).'
-                           'You can also use "--disable=all" to disable everything first '
-                           'and then reenable specific checks. For example, if you want '
-                           'to run only the similarities checker, you can use '
-                           '"--disable=all --enable=similarities". '
-                           'If you want to run only the classes checker, but have no '
-                           'Warning level messages displayed, use'
-                           '"--disable=all --enable=classes --disable=W"'}),
+                  'help': 'Disable the message, report, category or checker '
+                          'with the given id(s). You can either give multiple identifiers'
+                          ' separated by comma (,) or put this option multiple times '
+                          '(only on the command line, not in the configuration file '
+                          'where it should appear only once).'
+                          'You can also use "--disable=all" to disable everything first '
+                          'and then reenable specific checks. For example, if you want '
+                          'to run only the similarities checker, you can use '
+                          '"--disable=all --enable=similarities". '
+                          'If you want to run only the classes checker, but have no '
+                          'Warning level messages displayed, use'
+                          '"--disable=all --enable=classes --disable=W"'}),
 
                 ('msg-template',
-                 {'type' : 'string', 'metavar': '<template>',
+                 {'type': 'string', 'metavar': '<template>',
                   'group': 'Reports',
-                  'help' : ('Template used to display messages. '
-                            'This is a python new-style format string '
-                            'used to format the message information. '
-                            'See doc for all details')
-                 }),
+                  'help': ('Template used to display messages. '
+                           'This is a python new-style format string '
+                           'used to format the message information. '
+                           'See doc for all details')
+                  }),
 
                 ('jobs',
-                 {'type' : 'int', 'metavar': '<n-processes>',
+                 {'type': 'int', 'metavar': '<n-processes>',
                   'short': 'j',
                   'default': 1,
-                  'help' : '''Use multiple processes to speed up Pylint.''',
-                 }),
+                  'help': '''Use multiple processes to speed up Pylint.''',
+                  }),
 
                 ('unsafe-load-any-extension',
                  {'type': 'yn', 'metavar': '<yn>', 'default': False, 'hide': True,
@@ -396,12 +396,12 @@ class PyLinter(config.OptionsManagerMixIn,
                   'help': ('When enabled, pylint would attempt to guess common '
                            'misconfiguration and emit user-friendly hints instead '
                            'of false-positive error messages')}),
-               )
+                )
 
     option_groups = (
         ('Messages control', 'Options controlling analysis messages'),
         ('Reports', 'Options related to output formatting and reporting'),
-        )
+    )
 
     def __init__(self, options=(), reporter=None, option_groups=(),
                  pylintrc=None):
@@ -445,7 +445,7 @@ class PyLinter(config.OptionsManagerMixIn,
                          report_messages_by_module_stats),
                         ('RP0003', 'Messages',
                          report_messages_stats),
-                       )
+                        )
         self.register_checker(self)
         self._dynamic_plugins = set()
         self._python3_porting_mode = False
@@ -503,7 +503,7 @@ class PyLinter(config.OptionsManagerMixIn,
         special options
         """
         if optname in self._options_methods or \
-                optname in self._bw_options_methods:
+                        optname in self._bw_options_methods:
             if value:
                 try:
                     meth = self._options_methods[optname]
@@ -518,7 +518,7 @@ class PyLinter(config.OptionsManagerMixIn,
                         meth(_id, ignore_unknown=True)
                 else:
                     meth(value)
-                return # no need to call set_option, disable/enable methods do it
+                return  # no need to call set_option, disable/enable methods do it
         elif optname == 'output-format':
             self._reporter_name = value
             # If the reporters are already available, load
@@ -632,7 +632,7 @@ class PyLinter(config.OptionsManagerMixIn,
             if match is None:
                 continue
             if match.group(1).strip() == "disable-all" or \
-                    match.group(1).strip() == 'skip-file':
+                            match.group(1).strip() == 'skip-file':
                 if match.group(1).strip() == "disable-all":
                     self.add_message('deprecated-pragma', line=start[0],
                                      args=('disable-all', 'skip-file'))
@@ -671,7 +671,6 @@ class PyLinter(config.OptionsManagerMixIn,
                         self.add_message('bad-option-value', args=msgid, line=start[0])
             else:
                 self.add_message('unrecognized-inline-option', args=opt, line=start[0])
-
 
     # code checking methods ###################################################
 
@@ -720,6 +719,7 @@ class PyLinter(config.OptionsManagerMixIn,
         if is_argument:
             return True
         return path.endswith('.py')
+
     # pylint: enable=unused-argument
 
     def check(self, files_or_modules):
@@ -868,7 +868,7 @@ class PyLinter(config.OptionsManagerMixIn,
             self._ignore_file = False
             # fix the current file (if the source file was not available or
             # if it's actually a c extension)
-            self.current_file = ast_node.file # pylint: disable=maybe-no-member
+            self.current_file = ast_node.file  # pylint: disable=maybe-no-member
             self.check_astroid_module(ast_node, walker, rawcheckers, tokencheckers)
             # warn about spurious inline messages handling
             spurious_messages = self.file_state.iter_spurious_suppression_messages(self.msgs_store)
@@ -917,7 +917,7 @@ class PyLinter(config.OptionsManagerMixIn,
                              args=str(ex.error))
         except astroid.AstroidBuildingException as ex:
             self.add_message('parse-error', args=ex)
-        except Exception as ex: # pylint: disable=broad-except
+        except Exception as ex:  # pylint: disable=broad-except
             import traceback
             traceback.print_exc()
             self.add_message('astroid-error', args=(ex.__class__, ex))
@@ -934,7 +934,7 @@ class PyLinter(config.OptionsManagerMixIn,
         if not ast_node.pure_python:
             self.add_message('raw-checker-failed', args=ast_node.name)
         else:
-            #assert astroid.file.endswith('.py')
+            # assert astroid.file.endswith('.py')
             # invoke ITokenChecker interface on self to fetch module/block
             # level options
             self.process_tokens(tokens)
@@ -955,9 +955,9 @@ class PyLinter(config.OptionsManagerMixIn,
 
     def open(self):
         """initialize counters"""
-        self.stats = {'by_module' : {},
-                      'by_msg' : {},
-                     }
+        self.stats = {'by_module': {},
+                      'by_msg': {},
+                      }
         MANAGER.always_load_extensions = self.config.unsafe_load_any_extension
         MANAGER.extension_package_whitelist.update(
             self.config.extension_pkg_whitelist)
@@ -1002,8 +1002,8 @@ class PyLinter(config.OptionsManagerMixIn,
         # get a global note for the code
         evaluation = self.config.evaluation
         try:
-            note = eval(evaluation, {}, self.stats) # pylint: disable=eval-used
-        except Exception as ex: # pylint: disable=broad-except
+            note = eval(evaluation, {}, self.stats)  # pylint: disable=eval-used
+        except Exception as ex:  # pylint: disable=broad-except
             msg = 'An exception occurred while rating: %s' % ex
         else:
             self.stats['global_note'] = note
@@ -1016,6 +1016,7 @@ class PyLinter(config.OptionsManagerMixIn,
             sect = report_nodes.EvaluationSection(msg)
             self.reporter.display_reports(sect)
 
+
 # some reporting functions ####################################################
 
 def report_total_messages_stats(sect, stats, previous_stats):
@@ -1025,6 +1026,7 @@ def report_total_messages_stats(sect, stats, previous_stats):
                                              ('convention', 'refactor',
                                               'warning', 'error'))
     sect.append(report_nodes.Table(children=lines, cols=4, rheaders=1))
+
 
 def report_messages_stats(sect, stats, _):
     """make messages type report"""
@@ -1040,6 +1042,7 @@ def report_messages_stats(sect, stats, _):
         lines += (msg_id, str(value))
     sect.append(report_nodes.Table(children=lines, cols=2, rheaders=1))
 
+
 def report_messages_by_module_stats(sect, stats, _):
     """make errors / warnings by modules report"""
     if len(stats['by_module']) == 1:
@@ -1053,7 +1056,7 @@ def report_messages_by_module_stats(sect, stats, _):
             if total == 0:
                 percent = 0
             else:
-                percent = float((mod_total)*100) / total
+                percent = float((mod_total) * 100) / total
             by_mod[module][m_type] = percent
     sorted_result = []
     for module, mod_info in six.iteritems(by_mod):
@@ -1152,87 +1155,87 @@ class Run(object):
     option_groups = (
         ('Commands', 'Options which are actually commands. Options in this \
 group are mutually exclusive.'),
-        )
+    )
 
-    def __init__(self, args, reporter=None, exit=True):
+    def __init__(self, args, reporter=None, disable_msg_ids=None, enable_msg_ids=None, exit=True):
         self._rcfile = None
         self._plugins = []
         try:
             preprocess_options(args, {
                 # option: (callback, takearg)
-                'init-hook':   (cb_init_hook, True),
-                'rcfile':       (self.cb_set_rcfile, True),
+                'init-hook': (cb_init_hook, True),
+                'rcfile': (self.cb_set_rcfile, True),
                 'load-plugins': (self.cb_add_plugins, True),
-                })
+            })
         except ArgumentPreprocessingError as ex:
             print(ex, file=sys.stderr)
             sys.exit(32)
 
         self.linter = linter = self.LinterClass((
             ('rcfile',
-             {'action' : 'callback', 'callback' : lambda *args: 1,
+             {'action': 'callback', 'callback': lambda *args: 1,
               'type': 'string', 'metavar': '<file>',
-              'help' : 'Specify a configuration file.'}),
+              'help': 'Specify a configuration file.'}),
 
             ('init-hook',
-             {'action' : 'callback', 'callback' : lambda *args: 1,
-              'type' : 'string', 'metavar': '<code>',
+             {'action': 'callback', 'callback': lambda *args: 1,
+              'type': 'string', 'metavar': '<code>',
               'level': 1,
-              'help' : 'Python code to execute, usually for sys.path '
-                       'manipulation such as pygtk.require().'}),
+              'help': 'Python code to execute, usually for sys.path '
+                      'manipulation such as pygtk.require().'}),
 
             ('help-msg',
-             {'action' : 'callback', 'type' : 'string', 'metavar': '<msg-id>',
-              'callback' : self.cb_help_message,
+             {'action': 'callback', 'type': 'string', 'metavar': '<msg-id>',
+              'callback': self.cb_help_message,
               'group': 'Commands',
-              'help' : 'Display a help message for the given message id and '
-                       'exit. The value may be a comma separated list of message ids.'}),
+              'help': 'Display a help message for the given message id and '
+                      'exit. The value may be a comma separated list of message ids.'}),
 
             ('list-msgs',
-             {'action' : 'callback', 'metavar': '<msg-id>',
-              'callback' : self.cb_list_messages,
+             {'action': 'callback', 'metavar': '<msg-id>',
+              'callback': self.cb_list_messages,
               'group': 'Commands', 'level': 1,
-              'help' : "Generate pylint's messages."}),
+              'help': "Generate pylint's messages."}),
 
             ('list-conf-levels',
-             {'action' : 'callback',
-              'callback' : cb_list_confidence_levels,
+             {'action': 'callback',
+              'callback': cb_list_confidence_levels,
               'group': 'Commands', 'level': 1,
-              'help' : "Generate pylint's messages."}),
+              'help': "Generate pylint's messages."}),
 
             ('full-documentation',
-             {'action' : 'callback', 'metavar': '<msg-id>',
-              'callback' : self.cb_full_documentation,
+             {'action': 'callback', 'metavar': '<msg-id>',
+              'callback': self.cb_full_documentation,
               'group': 'Commands', 'level': 1,
-              'help' : "Generate pylint's full documentation."}),
+              'help': "Generate pylint's full documentation."}),
 
             ('generate-rcfile',
-             {'action' : 'callback', 'callback' : self.cb_generate_config,
+             {'action': 'callback', 'callback': self.cb_generate_config,
               'group': 'Commands',
-              'help' : 'Generate a sample configuration file according to '
-                       'the current configuration. You can put other options '
-                       'before this one to get them in the generated '
-                       'configuration.'}),
+              'help': 'Generate a sample configuration file according to '
+                      'the current configuration. You can put other options '
+                      'before this one to get them in the generated '
+                      'configuration.'}),
 
             ('generate-man',
-             {'action' : 'callback', 'callback' : self.cb_generate_manpage,
+             {'action': 'callback', 'callback': self.cb_generate_manpage,
               'group': 'Commands',
-              'help' : "Generate pylint's man page.", 'hide': True}),
+              'help': "Generate pylint's man page.", 'hide': True}),
 
             ('errors-only',
-             {'action' : 'callback', 'callback' : self.cb_error_mode,
+             {'action': 'callback', 'callback': self.cb_error_mode,
               'short': 'E',
-              'help' : 'In error mode, checkers without error messages are '
-                       'disabled and for others, only the ERROR messages are '
-                       'displayed, and no reports are done by default'''}),
+              'help': 'In error mode, checkers without error messages are '
+                      'disabled and for others, only the ERROR messages are '
+                      'displayed, and no reports are done by default'''}),
 
             ('py3k',
-             {'action' : 'callback', 'callback' : self.cb_python3_porting_mode,
-              'help' : 'In Python 3 porting mode, all checkers will be '
-                       'disabled and only messages emitted by the porting '
-                       'checker will be displayed'}),
+             {'action': 'callback', 'callback': self.cb_python3_porting_mode,
+              'help': 'In Python 3 porting mode, all checkers will be '
+                      'disabled and only messages emitted by the porting '
+                      'checker will be displayed'}),
 
-            ), option_groups=self.option_groups, pylintrc=self._rcfile)
+        ), option_groups=self.option_groups, pylintrc=self._rcfile)
         # register standard checkers
         linter.load_default_plugins()
         # load command line plugins
@@ -1241,33 +1244,41 @@ group are mutually exclusive.'),
         linter.add_help_section('Environment variables', config.ENV_HELP, level=1)
         # pylint: disable=bad-continuation
         linter.add_help_section('Output',
-'Using the default text output, the message format is :                          \n'
-'                                                                                \n'
-'        MESSAGE_TYPE: LINE_NUM:[OBJECT:] MESSAGE                                \n'
-'                                                                                \n'
-'There are 5 kind of message types :                                             \n'
-'    * (C) convention, for programming standard violation                        \n'
-'    * (R) refactor, for bad code smell                                          \n'
-'    * (W) warning, for python specific problems                                 \n'
-'    * (E) error, for probable bugs in the code                                  \n'
-'    * (F) fatal, if an error occurred which prevented pylint from doing further\n'
-'processing.\n'
+                                'Using the default text output, the message format is :                          \n'
+                                '                                                                                \n'
+                                '        MESSAGE_TYPE: LINE_NUM:[OBJECT:] MESSAGE                                \n'
+                                '                                                                                \n'
+                                'There are 5 kind of message types :                                             \n'
+                                '    * (C) convention, for programming standard violation                        \n'
+                                '    * (R) refactor, for bad code smell                                          \n'
+                                '    * (W) warning, for python specific problems                                 \n'
+                                '    * (E) error, for probable bugs in the code                                  \n'
+                                '    * (F) fatal, if an error occurred which prevented pylint from doing further\n'
+                                'processing.\n'
                                 , level=1)
         linter.add_help_section('Output status code',
-'Pylint should leave with following status code:                                 \n'
-'    * 0 if everything went fine                                                 \n'
-'    * 1 if a fatal message was issued                                           \n'
-'    * 2 if an error message was issued                                          \n'
-'    * 4 if a warning message was issued                                         \n'
-'    * 8 if a refactor message was issued                                        \n'
-'    * 16 if a convention message was issued                                     \n'
-'    * 32 on usage error                                                         \n'
-'                                                                                \n'
-'status 1 to 16 will be bit-ORed so you can know which different categories has\n'
-'been issued by analysing pylint output status code\n',
+                                'Pylint should leave with following status code:                                 \n'
+                                '    * 0 if everything went fine                                                 \n'
+                                '    * 1 if a fatal message was issued                                           \n'
+                                '    * 2 if an error message was issued                                          \n'
+                                '    * 4 if a warning message was issued                                         \n'
+                                '    * 8 if a refactor message was issued                                        \n'
+                                '    * 16 if a convention message was issued                                     \n'
+                                '    * 32 on usage error                                                         \n'
+                                '                                                                                \n'
+                                'status 1 to 16 will be bit-ORed so you can know which different categories has\n'
+                                'been issued by analysing pylint output status code\n',
                                 level=1)
         # read configuration
         linter.disable('I')
+        if disable_msg_ids:
+            for msg_id in disable_msg_ids:
+                linter.disable(msg_id)
+
+        if enable_msg_ids:
+            for msg_id in enable_msg_ids:
+                linter.enable(msg_id)
+
         linter.enable('c-extension-no-member')
         linter.read_config_file()
         config_parser = linter.cfgfile_parser
@@ -1292,7 +1303,7 @@ group are mutually exclusive.'),
         try:
             args = linter.load_command_line_configuration(args)
         except SystemExit as exc:
-            if exc.code == 2: # bad options
+            if exc.code == 2:  # bad options
                 exc.code = 32
             raise
         if not args:
@@ -1359,7 +1370,7 @@ group are mutually exclusive.'),
         self.linter.print_full_documentation()
         sys.exit(0)
 
-    def cb_list_messages(self, option, optname, value, parser): # FIXME
+    def cb_list_messages(self, option, optname, value, parser):  # FIXME
         """optik callback for printing available messages"""
         self.linter.msgs_store.list_messages()
         sys.exit(0)
@@ -1374,9 +1385,10 @@ def cb_list_confidence_levels(option, optname, value, parser):
         print('%-18s: %s' % level)
     sys.exit(0)
 
+
 def cb_init_hook(optname, value):
     """exec arbitrary code to set sys.path for instance"""
-    exec(value) # pylint: disable=exec-used
+    exec (value)  # pylint: disable=exec-used
 
 
 if __name__ == '__main__':

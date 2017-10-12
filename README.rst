@@ -49,6 +49,11 @@ and disables the linter for those checks.
 The file name is being printed in colors using 
 LazyMe (https://pypi.python.org/pypi/lazyme) for more readability.
 
+line-too-long warning is changed to check for 119-char-limit as per PEP-8G
+
+'objects' attribute for classes is ignored for now.
+
+
 Install
 -------
 
