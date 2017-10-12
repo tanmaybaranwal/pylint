@@ -37,6 +37,17 @@ You can use the code-quality@python.org mailing list to discuss about
 Pylint. Subscribe at https://mail.python.org/mailman/listinfo/code-quality/
 or read the archives at https://mail.python.org/pipermail/code-quality/
 
+Custom Changes
+--------------
+
+# Author: tanmaybaranwal
+
+To get it to work with django-rest-framework projects, pylint.lint.Run command
+is modified. The command now accepts ignored msg-ids and disables the linter for those checks.
+
+The file name is being printed in colors using 
+LazyMe (https://pypi.python.org/pypi/lazyme) for more readability.
+
 Install
 -------
 
