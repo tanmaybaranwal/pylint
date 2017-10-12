@@ -42,8 +42,9 @@ Custom Changes
 
 # Author: tanmaybaranwal
 
-To get it to work with django-rest-framework projects, pylint.lint.Run command
-is modified. The command now accepts ignored msg-ids and disables the linter for those checks.
+To get it to work with django-rest-framework projects and custom checks, 
+pylint.lint.Run command is modified. The command now accepts ignored msg-ids 
+and disables the linter for those checks.
 
 The file name is being printed in colors using 
 LazyMe (https://pypi.python.org/pypi/lazyme) for more readability.
